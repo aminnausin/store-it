@@ -23,8 +23,12 @@ const nextConfig: NextConfig = {
                 hostname: "img.freepik.com",
             },
             {
+                protocol: "http",
+                hostname: "appwrite.test",
+            },
+            {
                 protocol: "https",
-                hostname: "cloud.appwrite.io",
+                hostname: "nausin.me",
             },
         ],
     },
