@@ -19,8 +19,8 @@ services:
       - --entrypoints.appwrite_websecure.address=:443
     restart: unless-stopped
     ports:
-      - 80:80
-      - 443:443
+      - 8801:80
+      - 8881:443
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - appwrite-config:/storage/config:ro
@@ -171,7 +171,7 @@ services:
   appwrite-console:
     <<: *x-logging
     container_name: appwrite-console
-    image: appwrite/console:6.0.13
+    image: appwrite/console:6.1.12
     restart: unless-stopped
     networks:
       - appwrite
