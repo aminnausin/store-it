@@ -7,6 +7,7 @@
     "prettier"
   ],
   "rules": {
-    "no-undef": "off"
+    "no-undef": "off",
+    "tailwindcss/no-custom-classname": "off"
   }
 }
