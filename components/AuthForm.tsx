@@ -1,15 +1,18 @@
 "use client";
 
+import React, { useState } from "react";
+
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { createAccount } from "@/lib/actions/user.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 
-import React, { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import OTPModal from "./modals/OTPModal";
 
 type FormType = "sign-in" | "sign-up";
 
@@ -20,9 +23,10 @@ const authFormSchema = (formType: FormType) => {
     });
 };
 
-function AuthForm({ type }: { type: FormType }) {
+export default function AuthForm({ type }: { type: FormType }) {
     const [isLoading, setIsLoading] = useState(false);
-    const [errorMessage, setSetErrorMessage] = useState("");
+    const [accountId, setAccountId] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
 
     const formSchema = authFormSchema(type);
     const form = useForm<z.infer<typeof formSchema>>({
@@ -35,8 +39,21 @@ function AuthForm({ type }: { type: FormType }) {
 
     async function onSubmit(values: z.infer<typeof formSchema>) {
         setIsLoading(true);
-        await setTimeout(() => {}, 2000);
-        setIsLoading(false);
+        setErrorMessage("");
+
+        try {
+            const user = await createAccount({
+                fullName: values.fullName || "",
+                email: values.email,
+            });
+
+            setAccountId(user.accountId);
+        } catch (error) {
+            setErrorMessage(`Failed to create account. ${error}`);
+            console.log(error);
+        } finally {
+            setIsLoading(false);
+        }
     }
 
     return (
@@ -94,8 +111,7 @@ function AuthForm({ type }: { type: FormType }) {
                     </div>
                 </form>
             </Form>
+            {accountId && <OTPModal email={form.getValues("email")} accountId={accountId} />}
         </>
     );
 }
-
-export default AuthForm;
