@@ -1,7 +1,7 @@
 import { destroySession } from "@/lib/actions/user.actions";
 import { Button } from "../ui/button";
 
-import FileUploader from "./FileUploader";
+import FileUploader from "../files/FileUploader";
 import Search from "./Search";
 import Image from "next/image";
 import React from "react";

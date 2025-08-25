@@ -9,7 +9,7 @@ import { uploadFile } from "@/lib/actions/file.actions";
 import { useToast } from "@/hooks/use-toast";
 import { Button } from "../ui/button";
 
-import Thumbnail from "../files/Thumbnail";
+import Thumbnail from "./Thumbnail";
 import Image from "next/image";
 
 export default function FileUploader({ ownerId, accountId, className }: { ownerId: string; accountId: string; className?: string }) {

@@ -2,7 +2,7 @@
 
 import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "../ui/dialog";
 
-export default function RenameFileModal() {
+export default function DeleteFileModal() {
     return (
         <DialogContent>
             <DialogHeader>

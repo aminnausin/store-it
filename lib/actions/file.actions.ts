@@ -5,7 +5,8 @@ import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
 import { revalidatePath } from "next/cache";
 import { InputFile } from "node-appwrite/file";
-import { ID } from "node-appwrite";
+import { ID, Models, Query } from "node-appwrite";
+import { getCurrentUser } from "./user.actions";
 
 export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileRequest) => {
     const { storage, databases } = await createAdminClient();
@@ -31,12 +32,42 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileR
             .createDocument(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, ID.unique(), fileDocument)
             .catch(async (error: unknown) => {
                 await storage.deleteFile(appwriteConfig.bucketId, bucketFile.$id);
-                handleError(error, "Failed to create file document");
+                throw new Error("Failed to create file document");
             });
 
         revalidatePath(path);
         return parseStringify(newFile);
     } catch (error) {
-        handleError(error, "Unable to upload file.");
+        handleError(error, "Failed to upload file.");
     }
 };
+
+export const getFiles = async ({ type }: { type?: string }) => {
+    const { databases } = await createAdminClient();
+
+    try {
+        const currentUser = await getCurrentUser();
+
+        if (!currentUser) {
+            throw new Error("User not found");
+        }
+
+        const queries = createQueries(currentUser, type);
+
+        const files = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, queries);
+
+        return parseStringify(files);
+    } catch (error) {
+        handleError(error, "Failed to get files.");
+    }
+};
+function createQueries(currentUser: Models.Document, type?: string) {
+    const queries = [
+        Query.or([Query.equal("owner", [currentUser.$id]), Query.contains("users", [currentUser.email])]),
+        ...(type ? [Query.equal("type", [type])] : []),
+    ];
+
+    // Filter
+
+    return queries;
+}
