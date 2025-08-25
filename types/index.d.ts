@@ -20,7 +20,7 @@ declare interface SearchParamProps {
     searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-declare interface UploadFileProps {
+declare interface UploadFileRequest {
     file: File;
     ownerId: string;
     accountId: string;

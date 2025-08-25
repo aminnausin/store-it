@@ -14,7 +14,7 @@ import FileUploader from "./FileUploader";
 import Image from "next/image";
 import Link from "next/link";
 
-export default function MobileNavigation({ currentUser, ownerId }: { currentUser: User; ownerId?: string }) {
+export default function MobileNavigation({ currentUser, ownerId }: { currentUser: User; ownerId: string }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const pathname = usePathname();
@@ -57,7 +57,7 @@ export default function MobileNavigation({ currentUser, ownerId }: { currentUser
 
                     <Separator className="my-5 bg-light-200/20" />
                     <div className="flex flex-col justify-between gap-5">
-                        <FileUploader />
+                        <FileUploader ownerId={ownerId} accountId={currentUser.accountId} className="w-full" />
                         <Button variant={"ghost"} className="mobile-sign-out-button" type="submit" onClick={async () => await destroySession()}>
                             <Image src="/assets/icons/logout.svg" alt="logout" width={24} height={24} className="rotate-180" />
                             <p>Logout</p>

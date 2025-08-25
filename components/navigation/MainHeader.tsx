@@ -6,12 +6,12 @@ import Search from "./Search";
 import Image from "next/image";
 import React from "react";
 
-export default function MainHeader() {
+export default function MainHeader({ currentUser, ownerId }: { currentUser: User; ownerId: string }) {
     return (
         <header className="w-full flex header">
             <Search />
             <div className="header-wrapper">
-                <FileUploader />
+                <FileUploader ownerId={ownerId} accountId={currentUser.accountId} />
                 <form
                     action={async () => {
                         "use server";

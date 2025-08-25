@@ -3,7 +3,7 @@
 import { avatarPlaceholderUrl } from "@/constants";
 import { createAdminClient, createSessionClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
-import { parseStringify } from "../utils";
+import { handleError, parseStringify } from "../utils";
 import { ID, Query } from "node-appwrite";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -14,11 +14,6 @@ const getUserByEmail = async (email: string) => {
     const result = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.usersCollectionId, [Query.equal("email", [email])]);
 
     return result.total > 0 ? result.documents[0] : null;
-};
-
-const handleError = (error: unknown, message: string) => {
-    console.log(error, message);
-    throw error;
 };
 
 export const sendEmailOTP = async ({ email }: { email: string }) => {
