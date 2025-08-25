@@ -3,37 +3,29 @@
 import React, { useState } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { createAccount } from "@/lib/actions/user.actions";
+import { createSession } from "@/lib/actions/user.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 
+import OTPModal from "../modals/OTPModal";
 import Image from "next/image";
 import Link from "next/link";
-import OTPModal from "./modals/OTPModal";
 
-type FormType = "sign-in" | "sign-up";
-
-const authFormSchema = (formType: FormType) => {
-    return z.object({
-        email: z.string().email(),
-        fullName: formType === "sign-up" ? z.string().min(2).max(50) : z.string().optional(), // haha this is such a tape together way of doing this I hate this why are you coding so low quality for no reason
-    });
-};
-
-export default function AuthForm({ type }: { type: FormType }) {
+export default function AuthForm() {
     const [isLoading, setIsLoading] = useState(false);
     const [accountId, setAccountId] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
 
-    const formSchema = authFormSchema(type);
+    const formSchema = z.object({
+        email: z.string().email(),
+    });
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             email: "",
-            fullName: "",
         },
     });
 
@@ -42,10 +34,7 @@ export default function AuthForm({ type }: { type: FormType }) {
         setErrorMessage("");
 
         try {
-            const user = await createAccount({
-                fullName: values.fullName || "",
-                email: values.email,
-            });
+            const user = await createSession({ email: values.email });
 
             setAccountId(user.accountId);
         } catch (error) {
@@ -60,27 +49,7 @@ export default function AuthForm({ type }: { type: FormType }) {
         <>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="auth-form">
-                    <h1 className="form-title">
-                        {type === "sign-up" && "Create Account"}
-                        {type === "sign-in" && "Sign In"}
-                    </h1>
-                    {type === "sign-up" && (
-                        <FormField
-                            control={form.control}
-                            name="fullName"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <div className="shad-form-item">
-                                        <FormLabel className="shad-form-label">Full Name</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Enter your full name" className="shad-input" {...field} />
-                                        </FormControl>
-                                    </div>
-                                    <FormMessage className="shad-form-message" />
-                                </FormItem>
-                            )}
-                        />
-                    )}
+                    <h1 className="form-title">Sign In</h1>
                     <FormField
                         control={form.control}
                         name="email"
@@ -97,16 +66,15 @@ export default function AuthForm({ type }: { type: FormType }) {
                         )}
                     />
                     <Button type="submit" className="form-submit-button" disabled={isLoading}>
-                        {type === "sign-up" && "Create Account"}
-                        {type === "sign-in" && "Sign In"}
+                        Sign In
                         {isLoading && <Image src="/assets/icons/loader.svg" alt="loader" width={16} height={16} className="animate-spin" />}
                     </Button>
 
                     {errorMessage && <p className="error-message">*{errorMessage}</p>}
                     <div className="body-2 flex justify-center">
-                        <p className="text-light-100">{type === "sign-in" ? "Don't have an account?" : "Already have an account?"}</p>
-                        <Link href={type === "sign-in" ? "/sign-up" : "/sign-in"} className="ml-1 font-medium text-brand">
-                            {type === "sign-in" ? "Create an account" : "Sign In"}
+                        <p className="text-light-100">Don't have an account?</p>
+                        <Link href="/sign-up" className="ml-1 font-medium text-brand">
+                            Create an account
                         </Link>
                     </div>
                 </form>

@@ -2,16 +2,17 @@
 
 import React, { useState } from "react";
 
-import { Sheet, SheetClose, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
+import { destroySession } from "@/lib/actions/user.actions";
 import { usePathname } from "next/navigation";
-import { Button } from "../ui/button";
-
-import Image from "next/image";
 import { Separator } from "../ui/separator";
 import { navItems } from "@/constants";
+import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+
 import FileUploader from "./FileUploader";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function MobileNavigation({ currentUser, ownerId }: { currentUser: User; ownerId?: string }) {
     const [isOpen, setIsOpen] = useState(false);
@@ -57,12 +58,11 @@ export default function MobileNavigation({ currentUser, ownerId }: { currentUser
                     <Separator className="my-5 bg-light-200/20" />
                     <div className="flex flex-col justify-between gap-5">
                         <FileUploader />
-                        <Button variant={"ghost"} className="mobile-sign-out-button" type="submit">
+                        <Button variant={"ghost"} className="mobile-sign-out-button" type="submit" onClick={async () => await destroySession()}>
                             <Image src="/assets/icons/logout.svg" alt="logout" width={24} height={24} className="rotate-180" />
                             <p>Logout</p>
                         </Button>
                     </div>
-                    <SheetFooter></SheetFooter>
                 </SheetContent>
             </Sheet>
         </header>
