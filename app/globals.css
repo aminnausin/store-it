@@ -251,7 +251,7 @@
         @apply grid w-full gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 !important;
     }
     .sort-container {
-        @apply mt-5 flex items-center sm:mt-0 sm:gap-3 !important;
+        @apply mt-5 flex items-center sm:mt-0 gap-3 !important;
     }
 
     /* ActionsDropdown */
@@ -453,6 +453,15 @@
     }
     .thumbnail-image {
         @apply size-full object-cover object-center !important;
+    }
+
+    /* View */
+    .filter-light {
+        filter: brightness(0) saturate(100%) invert(18%) sepia(11%) saturate(114%) hue-rotate(176deg) brightness(14%) contrast(31%);
+    }
+
+    .filter-white {
+        filter: brightness(0) invert(1);
     }
 }
 

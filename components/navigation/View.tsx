@@ -1,0 +1,57 @@
+"use client";
+
+import { Button } from "../ui/button";
+import { cn } from "@/lib/utils";
+
+import React, { useState } from "react";
+
+export default function View() {
+    const [view, setView] = useState<"list" | "grid">("grid");
+
+    return (
+        <>
+            <Button
+                className={cn(
+                    view === "list" ? "bg-brand-100 !text-white hover:bg-brand" : "bg-white text-light-100/50 hover:bg-light-400",
+                    "size-11 p-0 rounded-xl"
+                )}
+                onClick={() => setView("list")}
+            >
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="!size-6 text-inherit">
+                    <g opacity="1">
+                        <rect x="1.83398" y="3.66602" width="18.3333" height="2.75" rx="1.375" fill="currentColor" />
+                        <rect x="1.83398" y="9.625" width="18.3333" height="2.75" rx="1.375" fill="currentColor" />
+                        <rect x="1.83398" y="15.584" width="18.3333" height="2.75" rx="1.375" fill="currentColor" />
+                    </g>
+                </svg>
+            </Button>
+
+            <Button
+                className={cn(
+                    view === "grid" ? "bg-brand-100 !text-white hover:bg-brand" : "bg-white text-light-100/50 hover:bg-light-400",
+                    "size-11 p-0 rounded-xl"
+                )}
+                onClick={() => setView("grid")}
+            >
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="!size-6 text-inherit">
+                    <path
+                        d="M6.63732 1.83398H4.89565C2.88815 1.83398 1.83398 2.88815 1.83398 4.88648V6.62815C1.83398 8.62648 2.88815 9.68065 4.88648 9.68065H6.62815C8.62648 9.68065 9.68065 8.62648 9.68065 6.62815V4.88648C9.68982 2.88815 8.63565 1.83398 6.63732 1.83398Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M17.1125 1.83398H15.3709C13.3725 1.83398 12.3184 2.88815 12.3184 4.88648V6.62815C12.3184 8.62648 13.3725 9.68065 15.3709 9.68065H17.1125C19.1109 9.68065 20.165 8.62648 20.165 6.62815V4.88648C20.165 2.88815 19.1109 1.83398 17.1125 1.83398Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M17.1125 12.3105H15.3709C13.3725 12.3105 12.3184 13.3647 12.3184 15.363V17.1047C12.3184 19.103 13.3725 20.1572 15.3709 20.1572H17.1125C19.1109 20.1572 20.165 19.103 20.165 17.1047V15.363C20.165 13.3647 19.1109 12.3105 17.1125 12.3105Z"
+                        fill="currentColor"
+                    />
+                    <path
+                        d="M6.63732 12.3105H4.89565C2.88815 12.3105 1.83398 13.3647 1.83398 15.363V17.1047C1.83398 19.1122 2.88815 20.1664 4.88648 20.1664H6.62815C8.62648 20.1664 9.68065 19.1122 9.68065 17.1139V15.3722C9.68982 13.3647 8.63565 12.3105 6.63732 12.3105Z"
+                        fill="currentColor"
+                    />
+                </svg>
+            </Button>
+        </>
+    );
+}

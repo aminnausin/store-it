@@ -4,17 +4,17 @@ import { Button } from "@/components/ui/button";
 import { Models } from "node-appwrite";
 
 import FileCard from "@/components/files/FileCard";
-import Image from "next/image";
 import React from "react";
 import Sort from "@/components/files/Sort";
+import View from "@/components/navigation/View";
 
 export default async function page({ searchParams, params }: SearchParamProps) {
     const searchQuery = ((await searchParams)?.query as string) || "";
     const sortQuery = ((await searchParams)?.sort as string) || "";
 
     const type = ((await params)?.type as string) || "";
-
     const files = await getFiles({ types: getFileTypesParams(type), searchText: searchQuery, sort: sortQuery });
+
     return (
         <div className="page-container">
             <section className="w-full text-light-100">
@@ -33,12 +33,7 @@ export default async function page({ searchParams, params }: SearchParamProps) {
                     <div className="sort-container">
                         <p className="body-1 hidden sm:block text-light-100">Sort by:</p>
                         <Sort />
-                        <Button className="">
-                            <Image src="/assets/icons/grid.svg" width={24} height={24} alt="grid" />
-                        </Button>
-                        <Button>
-                            <Image src="/assets/icons/menu.svg" width={24} height={24} alt="list" />
-                        </Button>
+                        <View />
                     </div>
                 </div>
             </section>

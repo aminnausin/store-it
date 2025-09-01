@@ -1,15 +1,16 @@
 "use client";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import { Input } from "../ui/input";
-
-import React, { useCallback, useEffect, useState } from "react";
-import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { useDebounce } from "use-debounce";
 import { getFiles } from "@/lib/actions/file.actions";
 import { Models } from "node-appwrite";
-import { useDebounce } from "use-debounce";
-import Thumbnail from "../files/Thumbnail";
+import { Input } from "../ui/input";
+
+import React, { useEffect, useState } from "react";
+
 import FormattedDateTime from "../files/FormattedDateTime";
+import Thumbnail from "../files/Thumbnail";
+import Image from "next/image";
 
 export default function Search() {
     const [isOpen, setIsOpen] = useState(false);
@@ -19,7 +20,6 @@ export default function Search() {
 
     const searchParams = useSearchParams();
     const router = useRouter();
-    const path = usePathname();
 
     const searchQuery = searchParams.get("query") || "";
 
@@ -35,7 +35,7 @@ export default function Search() {
             if (debouncedQuery.length === 0) {
                 setIsOpen(false);
                 setResults([]);
-                return router.push(path.replace(searchParams.toString(), ""));
+                return;
             }
 
             const files = await getFiles({ searchText: debouncedQuery, types: [], limit: 10 });
