@@ -42,7 +42,7 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileR
     }
 };
 
-export const getFiles = async ({ type }: { type?: string }) => {
+export const getFiles = async ({ types }: { types?: string[] }) => {
     const { databases } = await createAdminClient();
 
     try {
@@ -52,7 +52,7 @@ export const getFiles = async ({ type }: { type?: string }) => {
             throw new Error("User not found");
         }
 
-        const queries = createQueries(currentUser, type);
+        const queries = createQueries(currentUser, types);
 
         const files = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, queries);
 
@@ -61,10 +61,10 @@ export const getFiles = async ({ type }: { type?: string }) => {
         handleError(error, "Failed to get files.");
     }
 };
-function createQueries(currentUser: Models.Document, type?: string) {
+function createQueries(currentUser: Models.Document, types?: string[]) {
     const queries = [
         Query.or([Query.equal("owner", [currentUser.$id]), Query.contains("users", [currentUser.email])]),
-        ...(type ? [Query.equal("type", [type])] : []),
+        ...(types ? [Query.contains("type", types)] : []),
     ];
 
     // Filter

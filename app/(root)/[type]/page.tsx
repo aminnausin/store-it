@@ -1,17 +1,17 @@
+import { convertFileSize, getFileTypesParams } from "@/lib/utils";
 import { getFiles } from "@/lib/actions/file.actions";
 import { Button } from "@/components/ui/button";
 import { Models } from "node-appwrite";
 
+import FileCard from "@/components/files/FileCard";
 import Image from "next/image";
 import React from "react";
 import Sort from "@/components/files/Sort";
-import FileCard from "@/components/files/FileCard";
-import { convertFileSize } from "@/lib/utils";
 
 export default async function page({ params }: SearchParamProps) {
     const type = ((await params)?.type as string) || "";
 
-    const files = await getFiles({ type: type.toLocaleLowerCase().substring(0, type.length - 1) });
+    const files = await getFiles({ types: getFileTypesParams(type) });
     return (
         <div className="page-container">
             <section className="w-full text-light-100">
