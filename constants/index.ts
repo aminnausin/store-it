@@ -83,4 +83,4 @@ export const sortTypes = [
 
 export const avatarPlaceholderUrl = "https://nausin.me/_astro/cat.C5dLt5p4.webp";
 
-export const MAX_FILE_SIZE = 50 * 1024 * 1024; // 50MB
+export const MAX_FILE_SIZE = 30 * 1024 * 1024; // 30MB because appwrite is bad
