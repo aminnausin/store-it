@@ -1,12 +1,12 @@
 "use server";
 
 import { constructFileUrl, getFileType, handleError, parseStringify } from "../utils";
+import { ID, Models, Query } from "node-appwrite";
 import { createAdminClient } from "../appwrite";
 import { appwriteConfig } from "../appwrite/config";
+import { getCurrentUser } from "./user.actions";
 import { revalidatePath } from "next/cache";
 import { InputFile } from "node-appwrite/file";
-import { ID, Models, Query } from "node-appwrite";
-import { getCurrentUser } from "./user.actions";
 
 export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileRequest) => {
     const { storage, databases } = await createAdminClient();
@@ -42,7 +42,7 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileR
     }
 };
 
-export const getFiles = async ({ types }: { types?: string[] }) => {
+export const getFiles = async ({ types, searchText = "", sort = "$createdAt-desc", limit }: GetFilesProps) => {
     const { databases } = await createAdminClient();
 
     try {
@@ -52,7 +52,7 @@ export const getFiles = async ({ types }: { types?: string[] }) => {
             throw new Error("User not found");
         }
 
-        const queries = createQueries(currentUser, types);
+        const queries = createQueries(currentUser, types, searchText, sort, limit);
 
         const files = await databases.listDocuments(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, queries);
 
@@ -61,13 +61,16 @@ export const getFiles = async ({ types }: { types?: string[] }) => {
         handleError(error, "Failed to get files");
     }
 };
-function createQueries(currentUser: Models.Document, types?: string[]) {
+function createQueries(currentUser: Models.Document, types: string[], searchText: string, sort: string, limit?: number) {
+    const [sortBy, orderBy] = sort.split("-");
+
     const queries = [
         Query.or([Query.equal("owner", [currentUser.$id]), Query.contains("users", [currentUser.email])]),
-        ...(types ? [Query.contains("type", types)] : []),
+        ...(types.length > 0 ? [Query.contains("type", types)] : []),
+        ...(searchText ? [Query.contains("name", searchText)] : []),
+        ...(limit ? [Query.limit(limit)] : []),
+        orderBy === "asc" ? Query.orderAsc(sortBy) : Query.orderDesc(sortBy),
     ];
-
-    // Filter
 
     return queries;
 }

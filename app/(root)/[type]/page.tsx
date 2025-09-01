@@ -8,10 +8,13 @@ import Image from "next/image";
 import React from "react";
 import Sort from "@/components/files/Sort";
 
-export default async function page({ params }: SearchParamProps) {
+export default async function page({ searchParams, params }: SearchParamProps) {
+    const searchQuery = ((await searchParams)?.query as string) || "";
+    const sortQuery = ((await searchParams)?.sort as string) || "";
+
     const type = ((await params)?.type as string) || "";
 
-    const files = await getFiles({ types: getFileTypesParams(type) });
+    const files = await getFiles({ types: getFileTypesParams(type), searchText: searchQuery, sort: sortQuery });
     return (
         <div className="page-container">
             <section className="w-full text-light-100">
