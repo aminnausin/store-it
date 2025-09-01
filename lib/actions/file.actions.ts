@@ -38,7 +38,7 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileR
         revalidatePath(path);
         return parseStringify(newFile);
     } catch (error) {
-        handleError(error, "Failed to upload file.");
+        handleError(error, "Failed to upload file");
     }
 };
 
@@ -58,7 +58,7 @@ export const getFiles = async ({ types }: { types?: string[] }) => {
 
         return parseStringify(files);
     } catch (error) {
-        handleError(error, "Failed to get files.");
+        handleError(error, "Failed to get files");
     }
 };
 function createQueries(currentUser: Models.Document, types?: string[]) {

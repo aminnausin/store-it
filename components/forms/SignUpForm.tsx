@@ -3,16 +3,16 @@
 import React, { useState } from "react";
 
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
-import { createAccount, createSession } from "@/lib/actions/user.actions";
+import { createAccount } from "@/lib/actions/user.actions";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { z } from "zod";
 
+import OTPModal from "../modals/OTPModal";
 import Image from "next/image";
 import Link from "next/link";
-import OTPModal from "../modals/OTPModal";
 
 export default function AuthForm() {
     const [isLoading, setIsLoading] = useState(false);

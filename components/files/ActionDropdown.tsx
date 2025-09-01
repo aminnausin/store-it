@@ -1,7 +1,12 @@
 "use client";
 
+import { actionsDropdownItems } from "@/constants";
+import { constructDownloadUrl } from "@/lib/utils";
 import { Dialog } from "@/components/ui/dialog";
 import { Models } from "node-appwrite";
+
+import React, { useState } from "react";
+
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -11,15 +16,12 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-import React, { useState } from "react";
-import Image from "next/image";
-import { actionsDropdownItems } from "@/constants";
-import Link from "next/link";
-import { constructDownloadUrl } from "@/lib/utils";
 import FileDetailsModal from "../modals/FileDetailsModal";
 import DeleteFileModal from "../modals/DeleteFileModal";
 import RenameFileModal from "../modals/RenameFileModal";
 import ShareFileModal from "../modals/ShareFileModal";
+import Image from "next/image";
+import Link from "next/link";
 
 export default function ActionDropdown({ file }: { file: Models.Document }) {
     const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -27,21 +29,25 @@ export default function ActionDropdown({ file }: { file: Models.Document }) {
 
     const [action, setAction] = useState<ActionType | null>(null);
 
-    const renderDialogContent = () => {
-        switch (action?.value) {
-            case "share":
-                return <ShareFileModal action={action} />;
-            case "rename":
-                return <RenameFileModal />;
-            case "delete":
-                return <DeleteFileModal />;
-            case "details":
-                return <FileDetailsModal />;
-            default:
-                return <></>;
-        }
+    const closeModal = () => {
+        setAction(null);
+        setIsDropdownOpen(false);
+        setIsModalOpen(false);
+    };
 
-        return <FileDetailsModal />;
+    const renderDialogContent = () => {
+        if (!action) return null;
+
+        switch (action.value) {
+            case "share":
+                return <ShareFileModal action={action} file={file} onClose={closeModal} />;
+            case "rename":
+                return <RenameFileModal action={action} file={file} onClose={closeModal} />;
+            case "delete":
+                return <DeleteFileModal action={action} file={file} onClose={closeModal} />;
+            case "details":
+                return <FileDetailsModal action={action} file={file} onClose={closeModal} />;
+        }
     };
 
     return (
@@ -62,7 +68,7 @@ export default function ActionDropdown({ file }: { file: Models.Document }) {
                                 </Link>
                             ) : (
                                 <div
-                                    className="flex items-center gap-2"
+                                    className="flex items-center gap-2 w-full"
                                     onClick={() => {
                                         setAction(actionItem);
                                         setIsModalOpen(true);

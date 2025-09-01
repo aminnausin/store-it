@@ -1,12 +1,13 @@
 "use server";
 
-import { avatarPlaceholderUrl } from "@/constants";
 import { createAdminClient, createSessionClient } from "../appwrite";
-import { appwriteConfig } from "../appwrite/config";
 import { handleError, parseStringify } from "../utils";
+import { avatarPlaceholderUrl } from "@/constants";
+import { appwriteConfig } from "../appwrite/config";
+import { revalidatePath } from "next/cache";
 import { ID, Query } from "node-appwrite";
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { cookies } from "next/headers";
 
 const getUserByEmail = async (email: string) => {
     const { databases } = await createAdminClient();
@@ -87,7 +88,7 @@ export const createSession = async ({ email }: { email: string }) => {
         const existingUser = await getUserByEmail(email);
 
         if (!existingUser) {
-            return parseStringify({ accountId: null, error: "Account does not exist." });
+            return parseStringify({ accountId: null, error: "Account does not exist" });
         }
         await sendEmailOTP({ email });
         return parseStringify({ accountId: existingUser.accountId });
@@ -108,5 +109,53 @@ export const destroySession = async () => {
     } catch (error) {
         console.log("Error logging out");
         throw error;
+    }
+};
+
+export const renameFile = async ({ fileId, name, extension, path }: RenameFileProps) => {
+    const { databases } = await createAdminClient();
+
+    try {
+        const newName = `${name}.${extension}`;
+        const updatedFile = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, fileId, { name: newName });
+
+        revalidatePath(path);
+        return parseStringify(updatedFile);
+    } catch (error) {
+        handleError(error, "Failed to rename file");
+    }
+};
+
+export const deleteFile = async ({ fileId, bucketFileId, path }: DeleteFileProps) => {
+    const { databases, storage } = await createAdminClient();
+
+    try {
+        const deletedFile = await databases.deleteDocument(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, fileId);
+
+        if (deletedFile) {
+            await storage.deleteFile(appwriteConfig.bucketId, bucketFileId);
+        }
+
+        revalidatePath(path);
+        return parseStringify({ status: "success" });
+    } catch (error) {
+        handleError(error, "Failed to rename file");
+    }
+};
+
+export const updateFileUsers = async ({ fileId, emails, path }: UpdateFileUsersProps) => {
+    const { databases } = await createAdminClient();
+
+    try {
+        if (emails.includes((await getCurrentUser()).email)) {
+            throw new Error("You cannot share a file with yourself");
+        }
+
+        const updatedFile = await databases.updateDocument(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, fileId, { users: emails });
+
+        revalidatePath(path);
+        return parseStringify(updatedFile);
+    } catch (error) {
+        handleError(error, "Failed to share file");
     }
 };
