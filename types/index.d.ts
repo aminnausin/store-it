@@ -81,3 +81,5 @@ declare interface ShareInputProps {
     onInputChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     onRemove: (email: string) => void;
 }
+
+declare type ViewMode = "list" | "grid";

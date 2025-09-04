@@ -1,9 +1,9 @@
 import { convertFileSize, getFileTypesParams } from "@/lib/utils";
+import { ViewProvider } from "@/app/context/ViewContext";
 import { getFiles } from "@/lib/actions/file.actions";
-import { Button } from "@/components/ui/button";
 import { Models } from "node-appwrite";
 
-import FileCard from "@/components/files/FileCard";
+import FileList from "@/components/files/FileList";
 import React from "react";
 import Sort from "@/components/files/Sort";
 import View from "@/components/navigation/View";
@@ -17,35 +17,29 @@ export default async function page({ searchParams, params }: SearchParamProps) {
 
     return (
         <div className="page-container">
-            <section className="w-full text-light-100">
-                <h1 className="h1 capitalize">{type}</h1>
-                <div className="total-size-section">
-                    <p className="body-1">
-                        Total:{" "}
-                        <span className="h5">
-                            {convertFileSize(
-                                files.documents.reduce((total: number, file: Models.Document) => {
-                                    return total + file.size;
-                                }, 0)
-                            )}
-                        </span>
-                    </p>
-                    <div className="sort-container">
-                        <p className="body-1 hidden sm:block text-light-100">Sort by:</p>
-                        <Sort />
-                        <View />
+            <ViewProvider>
+                <section className="w-full text-light-100">
+                    <h1 className="h1 capitalize">{type}</h1>
+                    <div className="total-size-section">
+                        <p className="body-1">
+                            Total:{" "}
+                            <span className="h5">
+                                {convertFileSize(
+                                    files.documents.reduce((total: number, file: Models.Document) => {
+                                        return total + file.size;
+                                    }, 0)
+                                )}
+                            </span>
+                        </p>
+                        <div className="sort-container">
+                            <p className="body-1 hidden text-light-100 sm:block">Sort by:</p>
+                            <Sort />
+                            <View />
+                        </div>
                     </div>
-                </div>
-            </section>
-            {files.total > 0 ? (
-                <section className="file-list">
-                    {files.documents.map((file: Models.Document) => (
-                        <FileCard file={file} key={file.$id} />
-                    ))}
                 </section>
-            ) : (
-                <p className="empty-list">No files found</p>
-            )}
+                <FileList files={files.documents} />
+            </ViewProvider>
         </div>
     );
 }

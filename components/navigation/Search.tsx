@@ -55,7 +55,7 @@ export default function Search() {
         <div className="search">
             <div className="search-input-wrapper">
                 <Image src="/assets/icons/search.svg" alt="Searc" width={24} height={24} />
-                <Input placeholder="Search..." className="flex-1 search-input" value={query} onChange={(e) => setQuery(e.target.value)} />
+                <Input placeholder="Search..." className="search-input flex-1" value={query} onChange={(e) => setQuery(e.target.value)} />
 
                 {isOpen && (
                     <ul className="search-result">
@@ -63,14 +63,14 @@ export default function Search() {
                             results.map((file) => (
                                 <li
                                     key={file.$id}
-                                    className="flex items-center justify-between cursor-pointer rounded-xl gap-4 hover:bg-light-400 p-2"
+                                    className="flex cursor-pointer items-center justify-between gap-4 rounded-xl p-2 hover:bg-light-400"
                                     onClick={() => handleClickItem(file)}
                                 >
-                                    <div className="flex items-center gap-4 flex-1 overflow-hidden">
+                                    <div className="flex flex-1 items-center gap-4 overflow-hidden">
                                         <Thumbnail type={file.type} extension={file.extension} url={file.url} className="size-9 min-w-9" />
                                         <p className="subtitle-2 truncate text-light-100 ">{file.name}</p>
                                     </div>
-                                    <FormattedDateTime rawDate={file.$createdAt} className="ms-auto caption line-clamp-1 text-light-200" />
+                                    <FormattedDateTime rawDate={file.$createdAt} className="caption ms-auto line-clamp-1 text-light-200" />
                                 </li>
                             ))
                         ) : (

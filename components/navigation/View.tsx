@@ -1,21 +1,24 @@
 "use client";
 
+import { useView } from "@/app/context/ViewContext";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
-import React, { useState } from "react";
+import React from "react";
 
 export default function View() {
-    const [view, setView] = useState<"list" | "grid">("grid");
+    const { view, setView, ready } = useView();
 
     return (
         <>
             <Button
                 className={cn(
                     view === "list" ? "bg-brand-100 !text-white hover:bg-brand" : "bg-white text-light-100/50 hover:bg-light-400",
-                    "size-11 p-0 rounded-xl"
+                    "size-11 p-0 rounded-xl shrink-0"
                 )}
-                onClick={() => setView("list")}
+                onClick={() => {
+                    if (ready) setView("list");
+                }}
             >
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="!size-6 text-inherit">
                     <g opacity="1">
@@ -29,9 +32,11 @@ export default function View() {
             <Button
                 className={cn(
                     view === "grid" ? "bg-brand-100 !text-white hover:bg-brand" : "bg-white text-light-100/50 hover:bg-light-400",
-                    "size-11 p-0 rounded-xl"
+                    "size-11 p-0 rounded-xl shrink-0"
                 )}
-                onClick={() => setView("grid")}
+                onClick={() => {
+                    if (ready) setView("grid");
+                }}
             >
                 <svg width="22" height="22" viewBox="0 0 22 22" fill="none" xmlns="http://www.w3.org/2000/svg" className="!size-6 text-inherit">
                     <path

@@ -32,7 +32,7 @@ export const uploadFile = async ({ file, ownerId, accountId, path }: UploadFileR
             .createDocument(appwriteConfig.databaseId, appwriteConfig.filesCollectionId, ID.unique(), fileDocument)
             .catch(async (error: unknown) => {
                 await storage.deleteFile(appwriteConfig.bucketId, bucketFile.$id);
-                throw new Error("Failed to create file document");
+                throw new Error(`Failed to create file document: ${error}`);
             });
 
         revalidatePath(path);
