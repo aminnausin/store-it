@@ -21,7 +21,7 @@ export default function FileList({ files }: { files: Models.Document[] }) {
                     ))}
                 </section>
             ) : (
-                <p className="empty-list file-list">No files found</p>
+                <p className="empty-list">No files found</p>
             )}
         </>
     );

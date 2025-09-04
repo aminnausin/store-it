@@ -9,14 +9,22 @@ export default function Sort() {
     const router = useRouter();
     const path = usePathname();
 
-    const searchQuery = searchParams.get("query") || "";
+    const sortQuery = searchParams.get("sort") || "";
 
     const handleSort = (value: string) => {
-        router.push(`${path}${searchQuery ? `?query=${searchQuery.toString()}&` : "?"}sort=${value}`);
+        const params = new URLSearchParams(searchParams.toString());
+
+        if (value) {
+            params.set("sort", value);
+        } else {
+            params.delete("sort");
+        }
+
+        router.push(`${path}?${params.toString()}`);
     };
 
     return (
-        <Select onValueChange={handleSort} defaultValue={sortTypes[0].value}>
+        <Select onValueChange={handleSort} defaultValue={sortTypes[0].value} value={sortQuery || undefined}>
             <SelectTrigger className="sort-select flex-1 truncate [&>*]:truncate">
                 <SelectValue placeholder={sortTypes[0].label} />
             </SelectTrigger>

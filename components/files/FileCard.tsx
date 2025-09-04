@@ -1,10 +1,11 @@
 import { convertFileSize, getFileType } from "@/lib/utils";
 import { Models } from "node-appwrite";
-import React from "react";
-import Thumbnail from "./Thumbnail";
-import Link from "next/link";
+
 import FormattedDateTime from "./FormattedDateTime";
 import ActionDropdown from "./ActionDropdown";
+import Thumbnail from "./Thumbnail";
+import React from "react";
+import Link from "next/link";
 
 export default function FileCard({ file }: { file: Models.Document }) {
     const { type, extension } = getFileType(file.name);
