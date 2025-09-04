@@ -1,9 +1,24 @@
-"use client";
+import { getTotalSpaceUsed } from "@/lib/actions/file.actions";
+import { getUsageSummary } from "@/lib/utils";
 
-export default function Home() {
+import RecentFiles from "@/components/dashboard/RecentFiles";
+import StorageChart from "@/components/dashboard/StorageChart";
+import UsageSummary from "@/components/dashboard/UsageSummary";
+
+export default async function Dashboard() {
+    const totalSpace = await getTotalSpaceUsed();
+
+    // Get usage summary
+    const usageSummary = getUsageSummary(totalSpace);
+
     return (
-        <div className="flex-center h-screen">
-            <h1 className="text-3xl text-brand-100">Store-it</h1>
+        <div className="dashboard-container text-light-100">
+            <section>
+                <StorageChart spaceUsed={totalSpace.used} />
+                <UsageSummary usageSummary={usageSummary} />
+            </section>
+
+            <RecentFiles />
         </div>
     );
 }

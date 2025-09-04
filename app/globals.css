@@ -207,13 +207,13 @@
 
     /* Dashboard */
     .dashboard-container {
-        @apply mx-auto grid max-w-7xl grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10 !important;
+        @apply mx-auto grid grid-cols-1 gap-6 md:grid-cols-2 xl:gap-10 !important;
     }
     .dashboard-summary-list {
         @apply mt-6 grid grid-cols-1 gap-4 xl:mt-10 xl:grid-cols-2 xl:gap-9 !important;
     }
     .dashboard-summary-card {
-        @apply relative mt-6 rounded-[20px] bg-white p-5 transition-all hover:scale-105 !important;
+        @apply relative mt-6 rounded-[20px] bg-white p-5 transition-all hover:scale-105;
     }
     .summary-type-icon {
         @apply absolute -left-3 top-[-25px] z-10 w-[190px] object-contain !important;
@@ -322,7 +322,7 @@
         @apply flex items-center rounded-[20px] bg-brand p-5 text-white md:flex-col xl:flex-row !important;
     }
     .chart-container {
-        @apply mx-auto aspect-square w-[180px] text-white xl:w-[250px] !important;
+        @apply mx-auto aspect-square w-[250px] text-white !important;
     }
     .polar-grid {
         @apply first:fill-white/20 last:fill-brand !important;
@@ -462,6 +462,10 @@
 
     .filter-white {
         filter: brightness(0) invert(1);
+    }
+
+    .recharts-radial-bar-background-sector {
+        fill: rgba(255, 255, 255, 0.2) !important;
     }
 }
 

@@ -1,3 +1,4 @@
+import { TOTAL_STORAGE_SIZE } from "@/constants";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -24,8 +25,7 @@ export const convertFileSize = (sizeInBytes: number, digits?: number) => {
 };
 
 export const calculatePercentage = (sizeInBytes: number) => {
-    const totalSizeInBytes = 2 * 1024 * 1024 * 1024; // 2GB in bytes
-    const percentage = (sizeInBytes / totalSizeInBytes) * 100;
+    const percentage = (sizeInBytes / TOTAL_STORAGE_SIZE) * 100;
     return Number(percentage.toFixed(2));
 };
 
@@ -165,6 +165,7 @@ export const constructDownloadUrl = (bucketFileId: string) => {
 };
 
 // DASHBOARD UTILS
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getUsageSummary = (totalSpace: any) => {
     return [
         {
