@@ -1,12 +1,11 @@
 "use client";
 
 import { useRouter, useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 import { useDebounce } from "use-debounce";
 import { getFiles } from "@/lib/actions/file.actions";
 import { Models } from "node-appwrite";
 import { Input } from "../ui/input";
-
-import React, { useEffect, useState } from "react";
 
 import FormattedDateTime from "../files/FormattedDateTime";
 import Thumbnail from "../files/Thumbnail";

@@ -4,7 +4,6 @@ import { redirect } from "next/navigation";
 import MobileNavigation from "@/components/navigation/MobileNavigation";
 import MainHeader from "@/components/navigation/MainHeader";
 import Sidebar from "@/components/navigation/Sidebar";
-import React from "react";
 
 export default async function layout({ children }: { children: React.ReactNode }) {
     const currentUser = await getCurrentUser();

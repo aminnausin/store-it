@@ -4,8 +4,6 @@ import { useView } from "@/app/context/ViewContext";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
-import React from "react";
-
 export default function View() {
     const { view, setView, ready } = useView();
 
@@ -13,7 +11,7 @@ export default function View() {
         <>
             <Button
                 className={cn(
-                    view === "list" ? "bg-brand-100 !text-white hover:bg-brand" : "bg-white text-light-100/50 hover:bg-light-400",
+                    view === "list" ? "bg-brand !text-white hover:bg-brand-100" : "bg-white text-light-100/50 hover:bg-light-400",
                     "size-11 p-0 rounded-xl shrink-0"
                 )}
                 onClick={() => {
@@ -31,7 +29,7 @@ export default function View() {
 
             <Button
                 className={cn(
-                    view === "grid" ? "bg-brand-100 !text-white hover:bg-brand" : "bg-white text-light-100/50 hover:bg-light-400",
+                    view === "grid" ? "bg-brand !text-white hover:bg-brand-100" : "bg-white text-light-100/50 hover:bg-light-400",
                     "size-11 p-0 rounded-xl shrink-0"
                 )}
                 onClick={() => {

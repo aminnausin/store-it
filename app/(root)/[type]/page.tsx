@@ -4,9 +4,8 @@ import { getFiles } from "@/lib/actions/file.actions";
 import { Models } from "node-appwrite";
 
 import FileList from "@/components/files/FileList";
-import React from "react";
 import Sort from "@/components/files/Sort";
-import View from "@/components/navigation/View";
+import View from "@/components/files/View";
 
 export default async function page({ searchParams, params }: SearchParamProps) {
     const searchQuery = ((await searchParams)?.query as string) || "";
