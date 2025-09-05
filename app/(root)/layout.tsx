@@ -5,6 +5,8 @@ import MobileNavigation from "@/components/navigation/MobileNavigation";
 import MainHeader from "@/components/navigation/MainHeader";
 import Sidebar from "@/components/navigation/Sidebar";
 
+export const dynamic = "force-dynamic";
+
 export default async function layout({ children }: { children: React.ReactNode }) {
     const currentUser = await getCurrentUser();
 

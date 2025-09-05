@@ -72,7 +72,7 @@ export default function AuthForm() {
 
                     {errorMessage && <p className="error-message">*{errorMessage}</p>}
                     <div className="body-2 flex justify-center">
-                        <p className="text-light-100">Don't have an account?</p>
+                        <p className="text-light-100">Don&apos;t have an account?</p>
                         <Link href="/sign-up" className="ml-1 font-medium text-brand">
                             Create an account
                         </Link>

@@ -8,7 +8,7 @@ import React from "react";
 
 export default function MainHeader({ currentUser, ownerId }: { currentUser: User; ownerId: string }) {
     return (
-        <header className="w-full flex header">
+        <header className="header flex w-full">
             <Search />
             <div className="header-wrapper">
                 <FileUploader ownerId={ownerId} accountId={currentUser.accountId} />

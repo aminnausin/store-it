@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useState } from "react";
-
 import { Sheet, SheetContent, SheetTitle, SheetTrigger } from "../ui/sheet";
 import { destroySession } from "@/lib/actions/user.actions";
 import { usePathname } from "next/navigation";
 import { Separator } from "../ui/separator";
 import { navItems } from "@/constants";
+import { useState } from "react";
 import { Button } from "../ui/button";
 import { cn } from "@/lib/utils";
 
@@ -29,7 +28,7 @@ export default function MobileNavigation({ currentUser, ownerId }: { currentUser
                     <SheetTitle>
                         <div className="header-user">
                             <Image src={currentUser.avatar} alt="avatar" width={44} height={44} className="header-user-avatar" />
-                            <div className="sm:hidden lg:block body-2 text-light-100">
+                            <div className="body-2 text-light-100 sm:hidden lg:block">
                                 <p className="subtitle-2 capitalize">{currentUser.fullName}</p>
                                 <p className="caption">{currentUser.email}</p>
                             </div>

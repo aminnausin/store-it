@@ -34,8 +34,8 @@ export default function ShareFileModal({ file, action, onClose }: { onClose: () 
 
             onClose();
             return;
-        } catch (error: any) {
-            toast.error(error.message);
+        } catch (error: unknown) {
+            toast.error(`${error}`);
         }
 
         setIsLoading(false);

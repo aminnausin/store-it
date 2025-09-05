@@ -6,7 +6,7 @@ import { Models } from "node-appwrite";
 import FileDetailsCard from "../files/FileDetailsCard";
 import FileActionModal from "./FileActionModal";
 
-export default function RenameFileModal({ file, action, onClose }: { onClose: () => void; action: ActionType; file: Models.Document }) {
+export default function RenameFileModal({ file, action }: { action: ActionType; file: Models.Document }) {
     const DetailRow = ({ label, value }: { label: string; value: string }) => (
         <div className="flex">
             <p className="file-details-label">{label}</p>

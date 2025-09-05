@@ -51,7 +51,7 @@ export default function DeleteFileModal({ file, action, onClose }: { onClose: ()
     return (
         <FileActionModal action={action} footer={footer}>
             <DialogDescription className="delete-confirmation">
-                Are you sure you delete <span className="font-bold delete-file-name">{file.name}</span>?
+                Are you sure you delete <span className="delete-file-name font-bold">{file.name}</span>?
             </DialogDescription>
         </FileActionModal>
     );

@@ -46,7 +46,7 @@ export default function ActionDropdown({ file }: { file: Models.Document }) {
             case "delete":
                 return <DeleteFileModal action={action} file={file} onClose={closeModal} />;
             case "details":
-                return <FileDetailsModal action={action} file={file} onClose={closeModal} />;
+                return <FileDetailsModal action={action} file={file} />;
         }
     };
 

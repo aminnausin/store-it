@@ -29,7 +29,7 @@ export default function FileUploader({ ownerId, accountId, className }: { ownerI
                     return toast({
                         description: (
                             <p className="body-2 text-white">
-                                <span className="font-semibold break-all">{file.name}</span> is too large. Max file size is {convertFileSize(MAX_FILE_SIZE)}.
+                                <span className="break-all font-semibold">{file.name}</span> is too large. Max file size is {convertFileSize(MAX_FILE_SIZE)}.
                             </p>
                         ),
                         className: "error-toast",
@@ -41,7 +41,7 @@ export default function FileUploader({ ownerId, accountId, className }: { ownerI
                         return toast({
                             description: (
                                 <p className="body-2 text-white">
-                                    Failed to upload <span className="font-semibold break-all">{file.name}</span>.
+                                    Failed to upload <span className="break-all font-semibold">{file.name}</span>.
                                 </p>
                             ),
                             className: "error-toast",
@@ -53,7 +53,7 @@ export default function FileUploader({ ownerId, accountId, className }: { ownerI
                     return toast({
                         description: (
                             <p className="body-2 text-white">
-                                <span className="font-semibold break-all">{file.name}</span> successfully uploaded.
+                                <span className="break-all font-semibold">{file.name}</span> successfully uploaded.
                             </p>
                         ),
                         className: "success-toast",
@@ -63,10 +63,10 @@ export default function FileUploader({ ownerId, accountId, className }: { ownerI
 
             await Promise.all(uploadPromises);
         },
-        [ownerId, accountId, path]
+        [ownerId, accountId, path, toast]
     );
 
-    const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+    const { getRootProps, getInputProps } = useDropzone({ onDrop });
 
     const handleRemoveFile = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>, fileName: string) => {
         e.preventDefault();
@@ -91,13 +91,13 @@ export default function FileUploader({ ownerId, accountId, className }: { ownerI
                         return (
                             <li key={`${file.name}-${index}`} className="uploader-preview-item">
                                 <Thumbnail type={type} extension={extension} url={convertFileToUrl(file)} />
-                                <div className="truncate flex-1">
-                                    <p className="subtitle-2 truncate preview-item-name">{file.name}</p>
+                                <div className="flex-1 truncate">
+                                    <p className="subtitle-2 preview-item-name truncate">{file.name}</p>
                                     <p className="caption">5 Mins Remaining</p>
                                 </div>
                                 <Image src={"/assets/icons/file-loader.gif"} alt="loader" width={80} height={26} />
                                 <Button
-                                    className="hover:!bg-transparent p-0"
+                                    className="p-0 hover:!bg-transparent"
                                     title="Cancel Upload"
                                     variant={"ghost"}
                                     onClick={(e) => handleRemoveFile(e, file.name)}
